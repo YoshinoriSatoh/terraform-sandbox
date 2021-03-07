@@ -1,0 +1,26 @@
+[
+  {
+    "name": "batch",
+    "image": "539459320497.dkr.ecr.ap-northeast-1.amazonaws.com/alpine",
+    "command": ["ls"],
+    "secrets": [
+      {
+        "name": "parameter_store_secret",
+        "valueFrom": "/parameter_store_secret"
+      },
+      {
+        "name": "environment_variable_name",
+        "valueFrom": "arn:aws:secretsmanager:ap-northeast-1:539459320497:secret:secrets_manager_secret"
+      }
+    ], 
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "secretOptions": [],
+      "options": {
+        "awslogs-group": "/aws/ecs/ecs-fargate-vpc-endpoint",
+        "awslogs-region": "ap-northeast-1",
+        "awslogs-stream-prefix": "default"
+      }
+    }
+  }
+]
