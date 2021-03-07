@@ -135,6 +135,16 @@ resource "aws_vpc_endpoint" "logs" {
   security_group_ids = [ aws_security_group.vpc-endpoint.id ]
 }
 
+## ECR
+resource "aws_ecr_repository" "alpine" {
+  name                 = "${local.infra_fullname}-alpine"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
 ## ECS
 resource "aws_ecs_cluster" "cluster" {
   name = local.infra_fullname
@@ -278,7 +288,7 @@ resource "aws_iam_role_policy_attachment" "task-execution-policy-attach" {
 }
 
 resource "aws_cloudwatch_log_group" "default" {	
-  name = "/aws/ecs/${local.infra_fullname}"
+  name = "/aws/ecs/${var.infra.name}"
 
   tags = merge(	
     local.common_tags,	
@@ -295,7 +305,7 @@ resource "aws_ssm_parameter" "example" {
 
 ## Secrets Manager
 resource "aws_secretsmanager_secret" "example" {
-  name = "secrets_manager_secret"
+  name = "secrets_manager_secret5"
 }
 resource "aws_secretsmanager_secret_version" "example" {
   secret_id     = aws_secretsmanager_secret.example.id

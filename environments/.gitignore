@@ -1,2 +1,4 @@
 /*/key_pairs/*
 !/*/key_pairs/*.pub
+
+*.sh
